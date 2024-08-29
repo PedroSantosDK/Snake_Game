@@ -58,23 +58,23 @@ morreu = False
 bt_scale = (50*2, 30*2)
 
 #importando as imagens e sons 
-aplee_image = pg.image.load(r"E:\Pedro\Jogos_Python\Snake_Game\imagens\aplee.png")
+aplee_image = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\aplee.png")
 
 pg.mixer_music.set_volume(0.20)
-musica_fundo = pg.mixer_music.load(r"E:\Pedro\Jogos_Python\Snake_Game\sons\THE GOLDEN MANSION.wav")
+musica_fundo = pg.mixer_music.load(r"E:\Pedro\git\Snake_Game\sons\THE GOLDEN MANSION.wav")
 pg.mixer_music.play(-1)
 
-comendo = pg.mixer.Sound(r"E:\Pedro\Jogos_Python\Snake_Game\sons\coin.wav")
+comendo = pg.mixer.Sound(r"E:\Pedro\git\Snake_Game\sons\coin.wav")
 comendo.set_volume(10.0)
 
-game_over = pg.mixer.Sound(r"E:\Pedro\Jogos_Python\Snake_Game\sons\game_over_1.mp3")
+game_over = pg.mixer.Sound(r"E:\Pedro\git\Snake_Game\sons\game_over_1.mp3")
 game_over.set_volume(10)
 
-menu = pg.mixer.Sound(r"E:\Pedro\Jogos_Python\Snake_Game\sons\menu song.ogg")
+menu = pg.mixer.Sound(r"E:\Pedro\git\Snake_Game\sons\menu song.ogg")
 pg.mixer_music.play(-1)
 menu.set_volume(0.2)
 
-on_button_menu = pg.image.load(r"E:\Pedro\Jogos_Python\Snake_Game\imagens\Button on.png")
+on_button_menu = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\Button on.png")
 on_button_menu = pg.transform.scale(on_button_menu, bt_scale)
 
 #definindo os textos do jogo
@@ -120,7 +120,7 @@ def reiniciar_jogo():
     pg.mixer_music.play(-1)
 
 #importando e carregando imagens para o programa
-image = pg.image.load(r"E:\Pedro\Jogos_Python\Snake_Game\imagens\Grass.png").convert()
+image = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\Grass.png").convert()
 image = pg.transform.scale(image, (largura, altura))
 
 #loop principal

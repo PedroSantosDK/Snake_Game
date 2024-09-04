@@ -1,0 +1,1 @@
+#cria a animação de quando abre o jogo

@@ -25,10 +25,6 @@ snake_colors.append(red)
 snake_colors.append(green)
 snake_colors.append(blue)
 
-timer_minut = 0
-timer_minu = 0
-time_seg = 0
-
 pg.init()
 
 fim_jogo = False
@@ -174,19 +170,6 @@ else:
             menu.stop()
             pg.mouse.set_visible(False)
 
-            time_mil = pg.time.get_ticks()
-            print(time_mil)
-
-            if time_mil >= 1000:
-                time_seg += 1
-                time_mil = 0
-            if time_seg >= 60:
-                timer_minu += 1
-                time_seg = 0
-            if timer_minu >= 60:
-                timer_minut += 1
-                timer_minu = 0
-
     #exibindo os textos criados, pintado a tela e criando a condição para sair do jogo
             relogio.tick(30)
             tela.fill(white)
@@ -195,10 +178,7 @@ else:
 
             mensagem2 = f'Velocidade: {vel}'
             texto_formatado3 = fonte.render(mensagem2, False, (0,0,75))
-            fonte_timer = pg.font.SysFont('arial', 70, True, True)
 
-            mensagem_timer = f'{timer_minut}:{timer_minu}'
-            texto_timer = fonte_timer.render(mensagem_timer, False, (50,50,50))
             for event in pg.event.get():
                 if event.type == QUIT:
                     pg.quit()

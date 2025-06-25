@@ -1,2 +1,2 @@
 # Snake_Game
- My first game on python
+ Meu primeiro jogo em Python

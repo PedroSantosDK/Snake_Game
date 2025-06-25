@@ -5,8 +5,6 @@ from pygame.locals import *
 from sys import exit
 from random import randint, shuffle
 import os 
-import sys
-
 
 diretorio_principal = os.path.dirname(__file__)
 diretorio_imagens = os.path.join(diretorio_principal, "imagens")
@@ -61,35 +59,35 @@ morreu = False
 bt_scale = (50*3, 30*2)
 
 #importando as imagens e sons 
-aplee_image = pg.image.load(os.path.join(diretorio_imagens, "aplee.png"))
+aplee_image = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\aplee.png")
 
-menu_logo = pg.image.load(os.path.join(diretorio_imagens, "menu_logo.png"))
+menu_logo = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\menu_logo.png")
 menu_logo = pg.transform.scale(menu_logo, (31*10, 31*10))
 menu_logor = menu_logo.get_rect(center = (largura//2, 100))
 
 pg.mixer_music.set_volume(0.20)
-musica_fundo = pg.mixer_music.load(os.path.join(diretorio_sons, "THE_GOLDEN_MANSION.wav"))
+musica_fundo = pg.mixer_music.load(r"E:\Pedro\git\Snake_Game\sons\THE GOLDEN MANSION.wav")
 
-comendo = pg.mixer.Sound(os.path.join(diretorio_sons,"coin.wav"))
+comendo = pg.mixer.Sound(r"E:\Pedro\git\Snake_Game\sons\coin.wav")
 comendo.set_volume(10.0)
 
-game_over = pg.mixer.Sound(os.path.join(diretorio_sons, "game_over_1.mp3"))
+game_over = pg.mixer.Sound(r"E:\Pedro\git\Snake_Game\sons\game_over_1.mp3")
 game_over.set_volume(10)
 
-menu = pg.mixer.Sound(os.path.join(diretorio_sons,"menu_song.ogg"))
+menu = pg.mixer.Sound(r"E:\Pedro\git\Snake_Game\sons\menu song.ogg")
 pg.mixer_music.play(-1)
 menu.set_volume(0.2)
 
 pg.mixer_music.stop()
 
-on_button_menu = pg.image.load(os.path.join(diretorio_imagens,"Button_on.png"))
+on_button_menu = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\botões\Button on.png")
 on_button_menu = pg.transform.scale(on_button_menu, bt_scale)
 
-bt_quit = pg.image.load(os.path.join(diretorio_imagens,"exit_button.png"))
+bt_quit = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\botões\exit_button.png")
 bt_quit = pg.transform.scale(bt_quit, (32*4, 12*4))
 quit_rect = bt_quit.get_rect(center = (320, 420))
 
-bt_play = pg.image.load(os.path.join(diretorio_imagens,"play_button.png"))
+bt_play = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\botões\play_button.png")
 bt_play = pg.transform.scale(bt_play, (32*5, 12*5))
 play_rect = bt_play.get_rect(center = (320, 350))
 
@@ -136,7 +134,7 @@ def reiniciar_jogo():
     pg.mixer_music.play(-1)
 
 #importando e carregando imagens para o programa
-image = pg.image.load(os.path.join(diretorio_imagens,"Grass.png")).convert()
+image = pg.image.load(r"E:\Pedro\git\Snake_Game\imagens\Grass.png").convert()
 image = pg.transform.scale(image, (largura, altura))
 
 #loop principal
@@ -172,7 +170,6 @@ else:
             menu.stop()
             pg.mouse.set_visible(False)
 
-
     #exibindo os textos criados, pintado a tela e criando a condição para sair do jogo
             relogio.tick(30)
             tela.fill(white)
@@ -181,7 +178,6 @@ else:
 
             mensagem2 = f'Velocidade: {vel}'
             texto_formatado3 = fonte.render(mensagem2, False, (0,0,75))
-            fonte_timer = pg.font.SysFont('arial', 70, True, True)
 
             for event in pg.event.get():
                 if event.type == QUIT:

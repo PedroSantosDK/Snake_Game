@@ -12,7 +12,19 @@ diretorio_sons = os.path.join(diretorio_principal, "sons")
 
 #iniciando o pygame
 
-white= (255,255,255)
+play_buttons = []
+play_index1 = 0
+play_index2 = 1
+
+quit_buttons = []
+quit_index1 = 0
+quit_index2 = 1
+
+return_buttons = []
+return_index1 = 0
+return_index2 = 1
+
+white = (255,255,255)
 black = (0,0,0)
 red = (255,0,0)
 green = (0,255,0)
@@ -34,8 +46,6 @@ inical = False
 #dimensões da janela
 largura = 640
 altura = 480
-
-#paleta de cores
 
 #velocidade da cobra
 velocidade = 5
@@ -80,16 +90,47 @@ menu.set_volume(0.2)
 
 pg.mixer_music.stop()
 
-on_button_menu = pg.image.load(os.path.join(diretorio_imagens, "Button_on.png"))
-on_button_menu = pg.transform.scale(on_button_menu, bt_scale)
+bt_return = pg.image.load(os.path.join(diretorio_imagens, "return_button.png"))
+bt_return = pg.transform.scale(bt_return, bt_scale)
+return_rect = bt_return.get_rect(center = (320,300))
+
+return_buttons.append(bt_return)
+return_buttons.append(return_rect)
+
+bt_return_hover = pg.image.load(os.path.join(diretorio_imagens, "return_button_hover.png"))
+bt_return_hover = pg.transform.scale(bt_return_hover, bt_scale)
+return_hover_rect = bt_return.get_rect(center = (320,300))
+
+return_buttons.append(bt_return_hover)
+return_buttons.append(return_hover_rect)
 
 bt_quit = pg.image.load(os.path.join(diretorio_imagens, "exit_button.png"))
 bt_quit = pg.transform.scale(bt_quit, (32*4, 12*4))
 quit_rect = bt_quit.get_rect(center = (320, 420))
 
+quit_buttons.append(bt_quit)
+quit_buttons.append(quit_rect)
+
+bt_quit_hover = pg.image.load(os.path.join(diretorio_imagens, "exit_button_hover.png"))
+bt_quit_hover = pg.transform.scale(bt_quit_hover, (32*4, 12*4))
+quit_hover_rect = bt_quit_hover.get_rect(center = (320, 420))
+
+quit_buttons.append(bt_quit_hover)
+quit_buttons.append(quit_hover_rect)
+
 bt_play = pg.image.load(os.path.join(diretorio_imagens, "play_button.png"))
 bt_play = pg.transform.scale(bt_play, (32*5, 12*5))
 play_rect = bt_play.get_rect(center = (320, 350))
+
+play_buttons.append(bt_play)
+play_buttons.append(play_rect)
+
+bt_play_hover = pg.image.load(os.path.join(diretorio_imagens, "play_button_hover.png"))
+bt_play_hover = pg.transform.scale(bt_play_hover, (32*5, 12*5))
+play_hover_rect = bt_play_hover.get_rect(center = (320, 350))
+
+play_buttons.append(bt_play_hover)
+play_buttons.append(play_hover_rect)
 
 #definindo os textos do jogo
 fonte = pg.font.SysFont('arial', 40, True, True)
@@ -119,11 +160,13 @@ def aumenta_cobra(lista_cobra):
 
 #replay do jogo. caso  derrota, reinicia os valores de pontuacão, velocidade, tamanho da cobra e redefinicão na variavel morreu
 def reiniciar_jogo():
-    global pontos, comprimento_inicial, x_cobra, y_cobra, lista_cabeca, lista_cobra, x_maca, y_maca, morreu
-    pontos = 0
-    comprimento_inicial = 3
+    global pontos, comprimento_inicial, x_cobra, y_cobra, lista_cabeca, velocidade, vel, lista_cobra, x_maca, y_maca, morreu
+    velocidade = 5
+    vel = velocidade
     x_cobra = largura/2
     y_cobra = altura/2
+    pontos = 0
+    comprimento_inicial = 3
     lista_cabeca = []
     lista_cobra = []
     x_maca = randint(40,600)
@@ -145,6 +188,24 @@ while inical != True:
             pg.quit()
             exit()
 
+        if event.type == MOUSEMOTION:
+            XeY = pg.mouse.get_pos()
+
+            if play_rect.collidepoint(XeY[0], XeY[1]):
+                play_index1 = 2
+                play_index2 = 3
+            else:
+                play_index1 = 0
+                play_index2 = 1
+
+            if quit_rect.collidepoint(XeY[0], XeY[1]):
+                quit_index1 = 2
+                quit_index2 = 3
+            else:
+                quit_index1 = 0
+                quit_index2 = 1
+
+
         if event.type == MOUSEBUTTONDOWN:
             pg.mouse.get_pos()
 
@@ -156,8 +217,8 @@ while inical != True:
                 inical = not inical
 
     tela.blit(menu_logo, menu_logor)
-    tela.blit(bt_quit, quit_rect)
-    tela.blit(bt_play, play_rect)
+    tela.blit(quit_buttons[quit_index1], quit_buttons[quit_index2])
+    tela.blit(play_buttons[play_index1], play_buttons[play_index2])
     pg.display.flip()
 
 else:
@@ -217,18 +278,18 @@ else:
                             y_controle = velocidade
                             x_controle = 0
 
+                    if event.key == K_RIGHT:
+                        if x_controle == -velocidade:
+                            pass
+                        else:
+                            x_controle = velocidade
+                            y_controle = 0
+
                     if event.key == K_LEFT:
                         if x_controle == velocidade:
                             pass
                         else:
                             x_controle = -velocidade
-                            y_controle = 0
-
-                    if event.key == K_RIGHT:
-                        if x_controle == +velocidade:
-                            pass
-                        else:
-                            x_controle = velocidade
                             y_controle = 0 
 
                     if event.key == K_UP:
@@ -275,8 +336,6 @@ else:
             
             #condições que levam a game over: a cobra se encostar e/ou a cobra encostar nas bordas da tela
             if lista_cobra.count(lista_cabeca) > 1 or x_cobra > largura or x_cobra < 0 or y_cobra < 0 or y_cobra > altura:
-                velocidade = 5
-                vel = velocidade
                 game_over.play()
                 fonte3 = pg.font.SysFont('arial', 40, False, True)
                 pg.mixer_music.stop()
@@ -313,19 +372,28 @@ else:
                 pg.mixer_music.stop()
                 menu.play()
                 pg.mouse.set_visible(True)
-                button_menu = on_button_menu.get_rect(center = (320,300))
 
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
                         pg.quit()
                         exit()
 
+                    if event.type == MOUSEMOTION:
+                        XeY = pg.mouse.get_pos()
+
+                        if return_rect.collidepoint(XeY[0], XeY[1]):
+                            return_index1 = 2
+                            return_index2 = 3
+                        else:
+                            return_index1 = 0
+                            return_index2 = 1
+
                     if event.type == MOUSEBUTTONDOWN:
                         pg.mouse.get_pos()
-                        if button_menu.collidepoint(event.pos):
+                        if return_rect.collidepoint(event.pos):
                             game_pause = not game_pause
 
-            tela.blit(on_button_menu, button_menu)
+            tela.blit(return_buttons[return_index1], return_buttons[return_index2])
             tela.blit(mensagem_menu2f, (230,30))
             tela.blit(mensagem_menuf, (225,25))
 

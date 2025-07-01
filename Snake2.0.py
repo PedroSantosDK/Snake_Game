@@ -5,6 +5,7 @@ from pygame.locals import *
 from sys import exit
 from random import randint, shuffle
 import os 
+from Text_Maker import MyGameText
 
 diretorio_principal = os.path.dirname(__file__)
 diretorio_imagens = os.path.join(diretorio_principal, "imagens")
@@ -39,13 +40,21 @@ snake_colors.append(blue)
 
 pg.init()
 
-fim_jogo = False
-game_pause = False
-inical = False
-
 #dimensões da janela
 largura = 640
 altura = 480
+
+tela = pg.display.set_mode((largura, altura))
+pg.display.set_caption('Snake Game')
+relogio = pg.time.Clock()
+
+mgt = MyGameText()
+
+re_match_text = mgt.create_text("Presione 'R' para reiniciar", 15, (255,0,0))
+
+fim_jogo = False
+game_pause = False
+inical = False
 
 #velocidade da cobra
 velocidade = 5
@@ -149,9 +158,6 @@ mensagem_menu2f = fonte_menu2.render(mensagem_menu2, False, (50,50,50))
 vel = velocidade
 
 #criando a janela, definindo o titulo dela e setando uma espera de tempo para atualizar o jogo
-tela = pg.display.set_mode((largura, altura))
-pg.display.set_caption('Snake Game')
-relogio = pg.time.Clock()
 
 #acrescentando tamanho a cobra
 def aumenta_cobra(lista_cobra):
@@ -234,11 +240,10 @@ else:
             print(f"velocidade: {velocidade}\nvel: {vel}")
             os.system("cls")
             tela.fill(white)
-            mensagem = f'Pontos: {pontos}'
-            texto_formatado2 = fonte.render(mensagem, False, black)
 
-            mensagem2 = f'Velocidade: {vel}'
-            texto_formatado3 = fonte.render(mensagem2, False, (0,0,75))
+
+            text_points = mgt.create_text(f'Pontos: {pontos}', 35, (black))
+            text_vel = mgt.create_text(f'Velocidade: {vel}', 25, (0,0,75))
 
             for event in pg.event.get():
                 if event.type == QUIT:
@@ -337,10 +342,8 @@ else:
             #condições que levam a game over: a cobra se encostar e/ou a cobra encostar nas bordas da tela
             if lista_cobra.count(lista_cabeca) > 1 or x_cobra > largura or x_cobra < 0 or y_cobra < 0 or y_cobra > altura:
                 game_over.play()
-                fonte3 = pg.font.SysFont('arial', 40, False, True)
                 pg.mixer_music.stop()
-                mensagem = 'GAME OVER!'
-                texto_formatado = fonte3.render(mensagem, True, red)
+                text_game_over = mgt.create_text('GAME OVER!', 40, red, 'arial')
                 morreu = True
                 while morreu:
                     tela.fill(black)
@@ -352,7 +355,8 @@ else:
                             if event.key == K_r:
                                 reiniciar_jogo()
                     
-                    tela.blit(texto_formatado, (200, 220))
+                    tela.blit(text_game_over, (200, 220))
+                    tela.blit(re_match_text, (225, 260))
                     pg.display.update()
 
             #limpando o excesso do corpo da cobra
@@ -362,8 +366,8 @@ else:
             aumenta_cobra(lista_cobra)
 
             #printando os textos criados e atualizando a tela
-            tela.blit(texto_formatado2, (430,15))
-            tela.blit(texto_formatado3, (10,435))
+            tela.blit(text_points, (430,10))
+            tela.blit(text_vel, (10,435))
             tela.blit(aplee_image, maca)
         
         else:
